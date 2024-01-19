@@ -1,0 +1,19 @@
+{
+  "confirmDelete": "Are you sure to delete it？",
+  "noData": "No data available",
+  "selectAGroupFirst": "Select a Group first",
+  "addNewGroup": "Create a Group",
+  "editGroup": "Edit Group",
+  "createGroup": "Create Group",
+  "titleFieldName": "Title",
+  "colorFieldName": "Color",
+  "save": "Save",
+  "create": "Create",
+  "quickMessageConfigs": "Quick Messages Configs",
+  "createSuccessfully": "Created Successfully",
+  "cannotSavedMessageCuzLabelExisted": "Cannot be saved: title already existing",
+  "cannotSavedMessageCuzLabelEmpty": "Cannot be saved: title is empty",
+  "cannotSavedMessageCuzContentEmpty": "Cannot be saved: content is empty",
+  "content": "Content",
+  "delete": "Delete"
+}
