@@ -27,6 +27,7 @@ const LabelDiv = styled.div`
   cursor: pointer;
   min-width: 20px;
   user-select: none;
+  color: #333;
 
   &:hover {
     background-color: #bcd0f3;
