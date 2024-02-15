@@ -1,7 +1,7 @@
 {
   "name": "@crmchatreactcomponent/quick-messages",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
@@ -79,6 +79,7 @@
     "prettier": "^3.2.4",
     "react-i18next": "^14.0.0",
     "react-intersection-observer": "^9.5.3",
+    "react-use": "^17.5.0",
     "storybook": "^7.6.9",
     "storybook-addon-react-docgen": "^1.2.44",
     "styled-components": "^6.1.8",

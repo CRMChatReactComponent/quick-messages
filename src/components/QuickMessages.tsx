@@ -1,6 +1,7 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Flex, Space } from "antd";
+import { useLocalStorage } from "react-use";
+import { Button, Flex, Space, Tooltip } from "antd";
 import { MessageConfigsPanelProps } from "@/components/MessageConfigsPanel";
 import MessageConfigsPanelModalWrapper from "@/components/MessageConfigsPanelModalWrapper";
 import { MessagesGroupType, MessagesRecordType, SlotType } from "@/types";
@@ -54,7 +55,10 @@ const QuickMessages: FC<QuickMessagesProps> = ({
   onSelect = () => {},
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [activeGroupId, setActiveGroupId] = useState<string>("");
+  const [activeGroupId, setActiveGroupId] = useLocalStorage<string>(
+    "__activeGroupId",
+    "",
+  );
 
   const { t } = useTranslation();
 
@@ -68,12 +72,6 @@ const QuickMessages: FC<QuickMessagesProps> = ({
   const isEmpty = useMemo(() => {
     return data.length === 0;
   }, [data]);
-
-  useEffect(() => {
-    if (data.length > 0) {
-      setActiveGroupId(data[0].id);
-    }
-  }, []);
 
   return (
     <>
@@ -91,35 +89,39 @@ const QuickMessages: FC<QuickMessagesProps> = ({
             <Space size={8}>
               {messagesList.slice(0, displayMaxLength).map((message) => {
                 return (
-                  <LabelDiv
+                  <Tooltip
                     key={message.label}
-                    title={message.label}
-                    onClick={(ev) => {
-                      const target = ev.target as HTMLDivElement;
-                      if (!!target.closest("bdi")) return;
-                      onSelect(message);
-                    }}
+                    title={message.content}
+                    destroyTooltipOnHide={true}
                   >
-                    {SlotContentPrefixSlot && (
-                      <bdi>
-                        <SlotContentPrefixSlot
-                          group={currentGroup}
-                          message={message}
-                        />
-                      </bdi>
-                    )}
+                    <LabelDiv
+                      onClick={(ev) => {
+                        const target = ev.target as HTMLDivElement;
+                        if (!!target.closest("bdi")) return;
+                        onSelect(message);
+                      }}
+                    >
+                      {SlotContentPrefixSlot && (
+                        <bdi>
+                          <SlotContentPrefixSlot
+                            group={currentGroup}
+                            message={message}
+                          />
+                        </bdi>
+                      )}
 
-                    {limitText(message.label, displayTitleMaxLength)}
+                      {limitText(message.label, displayTitleMaxLength)}
 
-                    {SlotContentSuffixSlot && (
-                      <bdi>
-                        <SlotContentSuffixSlot
-                          group={currentGroup}
-                          message={message}
-                        />{" "}
-                      </bdi>
-                    )}
-                  </LabelDiv>
+                      {SlotContentSuffixSlot && (
+                        <bdi>
+                          <SlotContentSuffixSlot
+                            group={currentGroup}
+                            message={message}
+                          />{" "}
+                        </bdi>
+                      )}
+                    </LabelDiv>
+                  </Tooltip>
                 );
               })}
             </Space>
@@ -133,7 +135,11 @@ const QuickMessages: FC<QuickMessagesProps> = ({
                   key={group.id}
                   active={activeGroupId === group.id}
                   displayTitleMaxLength={displayTitleMaxLength}
-                  onClick={() => setActiveGroupId(group.id)}
+                  onClick={() => {
+                    setActiveGroupId(
+                      activeGroupId === group.id ? "" : group.id,
+                    );
+                  }}
                 />
               );
             })}
