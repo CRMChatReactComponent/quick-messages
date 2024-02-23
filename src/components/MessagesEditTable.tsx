@@ -10,7 +10,9 @@ export type MessagesEditTableProps = {
   data: MessagesRecordType[];
   onChange: (data: MessagesRecordType[]) => void;
   tableHeight?: number | string;
-  //  字数限制
+  /**
+   * 字数限制
+   */
   limitation?: {
     title?: number;
     content?: number;

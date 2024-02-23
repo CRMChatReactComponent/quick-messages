@@ -1,0 +1,13 @@
+import * as QuickMessage from "../QuickMessages.stories.tsx";
+import Readme from "./docs.md?raw";
+import { Canvas, Meta, Markdown } from "@storybook/blocks";
+
+<Meta title="Documentation" />
+
+# QuickMessage 组件
+
+快捷消息组件
+
+<Canvas of={QuickMessage.MassData}></Canvas>
+
+<Markdown>{Readme}</Markdown>

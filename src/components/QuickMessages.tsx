@@ -11,12 +11,26 @@ import Color from "color";
 import styled from "styled-components";
 
 export type QuickMessagesProps = {
+  /**
+   * 当快捷消息点击时回调
+   * @param message
+   */
   onSelect?: (message: MessagesRecordType) => void;
-  //  最大显示标题长度
+  /**
+   * 最大显示标题长度
+   */
   displayTitleMaxLength?: number;
-  //  最大显示一行多少个
+  /**
+   * 最大显示一行多少个
+   */
   displayMaxLength?: number;
+  /**
+   * 快捷消息左侧 slot
+   */
   SlotContentPrefixSlot?: SlotType;
+  /**
+   * 快捷消息右侧 slot
+   */
   SlotContentSuffixSlot?: SlotType;
 } & MessageConfigsPanelProps;
 

@@ -22,7 +22,14 @@ import { PlusOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 export type MessageConfigsPanelProps = {
+  /**
+   * 快捷消息数据
+   */
   data: MessagesGroupType[];
+  /**
+   * 快捷消息数据改变时回调
+   * @param data
+   */
   onChange: (data: MessagesGroupType[]) => void;
 } & Pick<MessagesEditTableProps, "tableHeight" | "limitation">;
 type GroupDataEditType = Pick<MessagesGroupType, "title" | "color">;
