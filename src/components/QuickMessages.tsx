@@ -43,6 +43,7 @@ const LabelDiv = styled.div`
   min-width: 20px;
   user-select: none;
   color: #333;
+  white-space: nowrap;
 
   &:hover {
     background-color: #bcd0f3;
@@ -105,7 +106,7 @@ const QuickMessages: FC<QuickMessagesProps> = ({
                 return (
                   <Tooltip
                     key={message.label}
-                    title={message.content}
+                    title={message.label}
                     destroyTooltipOnHide={true}
                   >
                     <LabelDiv
