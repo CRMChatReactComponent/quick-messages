@@ -15,5 +15,6 @@
   "cannotSavedMessageCuzLabelEmpty": "Cannot be saved: title is empty",
   "cannotSavedMessageCuzContentEmpty": "Cannot be saved: content is empty",
   "content": "Content",
-  "delete": "Delete"
+  "delete": "Delete",
+  "importFromClipboard": "Import from Clipboard"
 }

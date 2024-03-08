@@ -106,7 +106,9 @@ const QuickMessages: FC<QuickMessagesProps> = ({
                 return (
                   <Tooltip
                     key={message.label}
-                    title={message.label}
+                    title={
+                      <span style={{ fontSize: 12 }}>{message.label}</span>
+                    }
                     destroyTooltipOnHide={true}
                   >
                     <LabelDiv

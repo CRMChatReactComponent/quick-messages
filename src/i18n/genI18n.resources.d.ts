@@ -18,5 +18,6 @@ export interface I18nResourceInterface {
     cannotSavedMessageCuzContentEmpty: "无法保存: 内容不能为空";
     content: "内容";
     delete: "删除";
+    importFromClipboard: "从剪切板导入";
   };
 }

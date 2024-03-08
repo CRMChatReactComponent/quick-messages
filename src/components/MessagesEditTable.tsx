@@ -1,9 +1,11 @@
 import { FC, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Table, Input, InputRef, Space, Empty, Button, Flex } from "antd";
+import { uniqBy } from "lodash-es";
 import { useIsDark } from "@/hooks/useIsDark";
 import { MessagesRecordType } from "@/types";
 import { AntdApiContext, AntdApiContextType } from "$/AntdApiContext";
+import { GsClipboard } from "gs-clipboard";
 import styled from "styled-components";
 
 export type MessagesEditTableProps = {
@@ -18,6 +20,8 @@ export type MessagesEditTableProps = {
     content?: number;
   };
 };
+
+const GS = new GsClipboard();
 
 const MessagesEditTable: FC<MessagesEditTableProps> = ({
   data = [],
@@ -53,6 +57,22 @@ const MessagesEditTable: FC<MessagesEditTableProps> = ({
   function handleDelete(label: string) {
     const newData = data.filter((item) => item.label !== label);
     onChange(newData);
+  }
+
+  async function handleImportFromClipboard() {
+    const rows = await GS.getDataFromClipboard();
+    const messages = rows.clipboardType
+      .map((row) => {
+        return {
+          label: row?.[0]?.value ?? "",
+          content: row?.[1]?.value ?? "",
+        };
+      })
+      .filter((message) => message.label && message.content);
+
+    const newData = [...messages, ...data];
+
+    onChange(uniqBy(newData, "label"));
   }
 
   return (
@@ -92,7 +112,14 @@ const MessagesEditTable: FC<MessagesEditTableProps> = ({
             <Space>
               <div></div>
             </Space>
-            <Space>
+            <Space size={12}>
+              <Button
+                block={true}
+                type={"text"}
+                onClick={handleImportFromClipboard}
+              >
+                {t("importFromClipboard")}
+              </Button>
               <Button type={"primary"} onClick={handleAdd}>
                 {t("create")}
               </Button>

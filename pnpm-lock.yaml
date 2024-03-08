@@ -127,6 +127,9 @@ devDependencies:
   eslint-plugin-storybook:
     specifier: ^0.8.0
     version: 0.8.0(eslint@8.57.0)(typescript@5.4.2)
+  gs-clipboard:
+    specifier: ^1.1.4
+    version: 1.1.4
   jsdom:
     specifier: ^24.0.0
     version: 24.0.0
@@ -7458,6 +7461,13 @@ packages:
 
   /graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+    dev: true
+
+  /gs-clipboard@1.1.4:
+    resolution: {integrity: sha512-CpkBRFcCzhA9YUKKmjuyBXFljQEZdAxon5th2VSybVpVJMyBb4M+1yiutpAaY4hVklvFdJwpFfNrAFIjGk5erA==}
+    dependencies:
+      lodash-es: 4.17.21
+      tsc-alias: 1.8.8
     dev: true
 
   /gunzip-maybe@1.4.2:
