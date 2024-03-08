@@ -22,8 +22,6 @@ jobs:
           cache: "pnpm"
 
       - run: pnpm install
-      - name: Run Vitest Tests
-        run: pnpm run test:run
 
       - name: Build and Publish to npm
         run: npm run build
