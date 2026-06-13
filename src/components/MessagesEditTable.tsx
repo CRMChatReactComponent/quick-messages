@@ -84,7 +84,7 @@ const MessagesEditTable: FC<MessagesEditTableProps> = ({
       size={"small"}
       scroll={{
         y: tableHeight,
-        x: true,
+        x: "max-content",
       }}
       locale={{
         emptyText: () => {

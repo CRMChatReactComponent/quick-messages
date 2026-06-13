@@ -200,19 +200,22 @@ const MessageConfigsPanel: FC<MessageConfigsPanelProps> = ({
           </MenuWrapper>
           <AddAGroupBtn onCreate={handleSaved} block={true} />
         </Space>
-        {tableData ? (
-          <MessagesEditTable
-            data={tableData}
-            onChange={handleTableDataChange}
-            {...resetProps}
-          />
-        ) : (
-          <Alert
-            type={"info"}
-            message={t("selectAGroupFirst")}
-            style={{ height: 60, minWidth: 400 }}
-          />
-        )}
+        {/* flex:1 + min-width:0 让右侧收缩到容器内，表格走内部横向滚动而非溢出 Modal */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {tableData ? (
+            <MessagesEditTable
+              data={tableData}
+              onChange={handleTableDataChange}
+              {...resetProps}
+            />
+          ) : (
+            <Alert
+              type={"info"}
+              message={t("selectAGroupFirst")}
+              style={{ height: 60, minWidth: 400 }}
+            />
+          )}
+        </div>
       </Flex>
     </Wrapper>
   );
