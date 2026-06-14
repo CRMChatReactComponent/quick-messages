@@ -43,12 +43,22 @@ const TableDataCountWrapper = styled.span`
 `;
 const GroupNameWrapper = styled.div`
   &:hover {
+    /* inline-flex 而非 block：保留 antd 按钮内部的居中布局，避免宿主页样式破坏对齐 */
     .ant-btn {
-      display: block;
+      display: inline-flex !important;
     }
   }
   .ant-btn {
     display: none;
+    /* 强制覆盖宿主页可能注入的 line-height（如 max.ru 的 line-height:40px），否则图标会被压偏 */
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .ant-btn .anticon {
+    line-height: 1 !important;
+    vertical-align: middle !important;
   }
 `;
 const ColorDiv = styled.div<{ $color: string }>`
@@ -204,6 +214,9 @@ const MessageConfigsPanel: FC<MessageConfigsPanelProps> = ({
         <div style={{ flex: 1, minWidth: 0 }}>
           {tableData ? (
             <MessagesEditTable
+              // key 绑定当前分组：切换分组时强制重挂载 Table，
+              // 否则 scroll.y 的 rc-table 会残留上一个分组的首行（幽灵行）
+              key={selectedKeys[0]}
               data={tableData}
               onChange={handleTableDataChange}
               {...resetProps}

@@ -92,7 +92,9 @@ const { title: titleLimit = 15, content: contentLimit = 2000 } = limitation;
 
 ## displayMaxLength（可选）
 
-最大快捷消息显示数量，默认值 99
+分组每行显示的个数。分组与快捷消息均完整显示、超出自动换行；
+设置该值时分组按每行 N 个排布（grid），不传则按容器宽度自然换行。
+仅接受有限正整数，非法值（0/负数/小数）按未设置处理。
 
 # 事件
 

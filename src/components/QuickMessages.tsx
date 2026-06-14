@@ -58,13 +58,43 @@ const MessagesListWrapper = styled.div`
   min-height: 18px;
 `;
 
+/* 消息预览行：始终换行全显示，避免内容多时超出屏幕 */
+const WrapRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+`;
+
+/* 分组行：
+ * - 未设置 displayMaxLength → 按容器宽度自然换行（flex-wrap）
+ * - 设置了 displayMaxLength → 每行固定 N 个（grid），超出自动换行到多行
+ * 列数对 N 与实际个数取小，避免空轨道产生多余 gap；
+ * 轨道用 minmax(0, max-content) 而非 max-content：常态按内容宽度，
+ * 宿主页过窄时可收缩，避免横向溢出（配合 justify-items:start 保持左对齐不拉伸） */
+const GroupRow = styled.div<{ $columns?: number; $count: number }>`
+  display: ${(p) => (p.$columns ? "grid" : "flex")};
+  ${(p) =>
+    p.$columns
+      ? `grid-template-columns: repeat(${Math.min(
+          p.$columns,
+          p.$count,
+        )}, minmax(0, max-content));`
+      : "flex-wrap: wrap;"}
+  align-items: center;
+  justify-items: start;
+  justify-content: start;
+  gap: 8px;
+  max-width: 100%;
+`;
+
 const QuickMessages: FC<QuickMessagesProps> = ({
   data = [],
   onChange,
   tableHeight,
   limitation,
   displayTitleMaxLength = 10,
-  displayMaxLength = 99,
+  displayMaxLength,
   SlotContentPrefixSlot,
   SlotContentSuffixSlot,
   onSelect = () => {},
@@ -88,6 +118,15 @@ const QuickMessages: FC<QuickMessagesProps> = ({
     return data.length === 0;
   }, [data]);
 
+  // 每行分组个数：仅接受有限正整数，否则视为未设置（按宽度自然换行），
+  // 防止 0/负数/小数生成非法 CSS（如 repeat(-1, ...)）
+  const groupColumns =
+    typeof displayMaxLength === "number" &&
+    Number.isFinite(displayMaxLength) &&
+    displayMaxLength > 0
+      ? Math.floor(displayMaxLength)
+      : undefined;
+
   return (
     <>
       {isEmpty ? (
@@ -101,8 +140,8 @@ const QuickMessages: FC<QuickMessagesProps> = ({
       ) : (
         <Space size={2} direction={"vertical"}>
           <MessagesListWrapper>
-            <Space size={8}>
-              {messagesList.slice(0, displayMaxLength).map((message) => {
+            <WrapRow>
+              {messagesList.map((message) => {
                 return (
                   <Tooltip
                     key={message.label}
@@ -141,25 +180,27 @@ const QuickMessages: FC<QuickMessagesProps> = ({
                   </Tooltip>
                 );
               })}
-            </Space>
+            </WrapRow>
           </MessagesListWrapper>
 
-          <Space size={8}>
-            {data.slice(0, displayMaxLength).map((group) => {
-              return (
-                <Group
-                  data={group}
-                  key={group.id}
-                  active={activeGroupId === group.id}
-                  displayTitleMaxLength={displayTitleMaxLength}
-                  onClick={() => {
-                    setActiveGroupId(
-                      activeGroupId === group.id ? "" : group.id,
-                    );
-                  }}
-                />
-              );
-            })}
+          <WrapRow>
+            <GroupRow $columns={groupColumns} $count={data.length}>
+              {data.map((group) => {
+                return (
+                  <Group
+                    data={group}
+                    key={group.id}
+                    active={activeGroupId === group.id}
+                    displayTitleMaxLength={displayTitleMaxLength}
+                    onClick={() => {
+                      setActiveGroupId(
+                        activeGroupId === group.id ? "" : group.id,
+                      );
+                    }}
+                  />
+                );
+              })}
+            </GroupRow>
             <Button
               size={"small"}
               type={"text"}
@@ -167,7 +208,7 @@ const QuickMessages: FC<QuickMessagesProps> = ({
             >
               <SettingOutlined />
             </Button>
-          </Space>
+          </WrapRow>
         </Space>
       )}
       <MessageConfigsPanelModalWrapper
@@ -198,6 +239,11 @@ const GroupWrapper = styled.div<{
   cursor: pointer;
   min-width: 20px;
   user-select: none;
+  /* grid 列收窄时（宿主页过窄）裁剪标题而非撑破布局，彻底杜绝横向溢出 */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   &:hover {
     background-color: ${(p) => p.$hoverColor};
   }
