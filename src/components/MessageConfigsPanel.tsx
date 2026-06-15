@@ -89,16 +89,24 @@ const MessageConfigsPanel: FC<MessageConfigsPanelProps> = ({
         key: item.id,
         label: (
           <GroupNameWrapper>
-            <Flex justify={"space-between"} align={"center"}>
-              <Space>
-                <span>{item.title}</span>
+            <Flex justify={"space-between"} align={"center"} gap={4}>
+              <Flex style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {item.title}
+                </div>
 
                 {item.data.length ? (
                   <TableDataCountWrapper>
                     ({item.data.length})
                   </TableDataCountWrapper>
                 ) : null}
-              </Space>
+              </Flex>
 
               <Space size={8}>
                 <ColorDiv $color={item.color} />

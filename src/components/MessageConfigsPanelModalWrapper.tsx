@@ -29,7 +29,8 @@ const MessageConfigsPanelModalWrapper: FC<
           setOpen(false);
           onOpenChange(false);
         }}
-        width={980}
+        width={"90vw"}
+        centered
         footer={null}
       >
         <MessageConfigsPanel {...resetOptions} />

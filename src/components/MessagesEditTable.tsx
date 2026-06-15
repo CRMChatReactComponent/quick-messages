@@ -137,7 +137,7 @@ const MessagesEditTable: FC<MessagesEditTableProps> = ({
           return (
             <EditableCell
               maxLength={titleLimit}
-              type={"input"}
+              type={titleLimit > 15 ? "textarea" : "input"}
               value={text}
               onChange={(val) => {
                 if (record.label === val) return;
